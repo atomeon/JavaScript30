@@ -61,21 +61,26 @@
 
   <script>
     let audio = {}
-    let sounds = document.getElementsByTagName('audio');
+    const sounds = document.getElementsByTagName('audio');
+    const keys = document.querySelectorAll('.key');
+
+    keys.forEach(key => key.addEventListener('transitionend', function (e) {
+      if (e.propertyName !== 'transform') return;
+      this.classList.remove('playing');
+    }))
+
     for (let sound of sounds) {
       audio[sound.dataset.key] = sound;
     }
 
     window.addEventListener('keydown', function (e) {
       if (audio[e.keyCode]) {
+
+        let currentElement = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        currentElement.classList.add('playing');
+
         audio[e.keyCode].currentTime = 0;
         audio[e.keyCode].play();
-
-        let currentElement = document.querySelector(`[data-key="${e.keyCode}"]`);
-        currentElement.classList.add('playing');
-        setTimeout(function () {
-          currentElement.classList.remove('playing');
-        }, 100);
       }
     })
   </script>
