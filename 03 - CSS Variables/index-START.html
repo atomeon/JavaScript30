@@ -13,7 +13,7 @@
 
   <div class="controls">
     <label for="spacing">Spacing:</label>
-    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="40" data-sizing="px">
 
     <label for="blur">Blur:</label>
     <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
@@ -22,7 +22,7 @@
     <input id="base" type="color" name="base" value="#ffc600">
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+  <img src="http://www.fillmurray.com/800/500">
 
   <style>
     :root {
@@ -64,6 +64,34 @@
   </style>
 
   <script>
+    let inputs = document.querySelectorAll('input');
+    let img = document.querySelector('img');
+    let title = document.querySelector('.hl');
+
+    inputs.forEach(input => { input.oninput = handleUpdate });
+
+    function handleUpdate(e) {
+      let id = this.getAttribute('id');
+      let value = this.value;
+      let amount = this.getAttribute('data-sizing');
+      switch (id) {
+        case 'spacing':
+          img.style.setProperty('--spacing', `${value}${amount}`);
+          break;
+
+        case 'blur':
+          img.style.setProperty('--blur', `${value}${amount}`);
+          break;
+
+        case 'base':
+          img.style.setProperty('--base', `${value}`);
+          title.style.setProperty('--base', `${value}`);
+          break;
+
+        default:
+          break;
+      }
+    }
   </script>
 
 </body>
